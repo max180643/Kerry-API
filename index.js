@@ -12,11 +12,14 @@ let scraping = async () => {
   await page.setViewport({ width: 1280, height: 800 });
   await page.goto("https://th.kerryexpress.com/th/track/", {
     waitUntil: "networkidle2",
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
   await page.type("#track1", track_id);
   await Promise.all([
     page.click("#btnSubmit"),
-    page.waitForNavigation({ waitUntil: "networkidle2" }),
+    page.waitForNavigation({
+      waitUntil: "networkidle2",
+    }),
   ]);
 
   try {
