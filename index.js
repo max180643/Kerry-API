@@ -7,12 +7,14 @@ let track_id;
 let output_data = {};
 
 let scraping = async () => {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
   const page = await browser.newPage();
   await page.setViewport({ width: 1280, height: 800 });
   await page.goto("https://th.kerryexpress.com/th/track/", {
     waitUntil: "networkidle2",
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
   await page.type("#track1", track_id);
   await Promise.all([
