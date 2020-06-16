@@ -18,7 +18,9 @@ let scraping = async () => {
   });
   await page.type("#track1", track_id);
   await Promise.all([
-    page.click("#btnSubmit"),
+    await page.evaluate(() => {
+      document.querySelector('.btn').click()
+    }),
     page.waitForNavigation({
       waitUntil: "networkidle2",
     }),
@@ -101,7 +103,8 @@ let scraping = async () => {
           "div.sector-frame > div > div > div > div > div.col.colStatus > div.status.piority-success > div.desc > div.d1"
         ).innerText;
         data = data.split("\n");
-        data = data[1].replace("ผู้รับสินค้า: ", "");
+        data = data[1].replace("ผู้รับสินค้า:", "");
+        data = data.trim()
         return data;
       });
 
