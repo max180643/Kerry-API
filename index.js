@@ -13,20 +13,21 @@ let scraping = async () => {
   });
   const page = await browser.newPage();
   await page.setViewport({ width: 1280, height: 800 });
-  await page.goto("https://th.kerryexpress.com/th/track/", {
-    waitUntil: "networkidle2",
-  });
-  await page.type("#track1", track_id);
-  await Promise.all([
-    await page.evaluate(() => {
-      document.querySelector('.btn').click()
-    }),
-    page.waitForNavigation({
-      waitUntil: "networkidle2",
-    }),
-  ]);
-
   try {
+    await page.goto("https://th.kerryexpress.com/th/track/", {
+      waitUntil: "networkidle2",
+    });
+    await page.waitForSelector("#track1");
+    await page.type("#track1", track_id);
+    await Promise.all([
+      await page.evaluate(() => {
+        document.querySelector('.btn').click()
+      }),
+      page.waitForNavigation({
+        waitUntil: "networkidle2",
+      }),
+    ]);
+
     try {
       const not_found = await page.evaluate(
         () => document.querySelector("div.warpper > h1").innerText
