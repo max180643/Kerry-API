@@ -1,10 +1,13 @@
 const express = require("express");
 const puppeteer = require("puppeteer");
+const cors = require('cors');
 const server = express();
 const port = process.env.PORT || 5555;
 
 let track_id;
 let output_data = {};
+
+server.use(cors());
 
 let scraping = async () => {
   const browser = await puppeteer.launch({
